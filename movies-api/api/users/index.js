@@ -20,6 +20,12 @@ router.post('/',asyncHandler( async (req, res, next) => {
     }
     if (req.query.action === 'register') {
       await User.create(req.body);
+      if(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{5,}$/.test(req.body.password)){
+        await User.create(req.body).catch(next);
+      }
+      else{
+        res.status(401).json({code: 401, msg: 'Registration Failed. Please create a stronger password'});
+      }
       res.status(201).json({code: 201, msg: 'Successful created new user.'});
     } else {
       const user = await User.findByUserName(req.body.username);
@@ -32,6 +38,7 @@ router.post('/',asyncHandler( async (req, res, next) => {
             res.status(200).json({success: true, token: 'BEARER ' + token});
           } else {
             res.status(401).json({code: 401,msg: 'Authentication failed. Wrong password.'});
+           
           }
         });
       }
@@ -44,9 +51,14 @@ router.post('/:userName/favourites', asyncHandler(async (req, res) => {
   const userName = req.params.userName;
   const movie = await movieModel.findByMovieDBId(newFavourite);
   const user = await User.findByUserName(userName);
-  await user.favourites.push(movie._id);
-  await user.save(); 
-  res.status(201).json(user); 
+  if(!movie) return res.status(401).json({code: 401, msg: "Action Failed. Movie not found."});
+  if(await user.favourites.includes(movie._id)){
+    res.status(401).json({code: 401, msg: "Action Failed. Movie already in favourites."})
+  }else{
+    await user.favourites.push(movie._id);
+    await user.save();
+    res.status(200).json(user);
+  }
 }));
 
 router.get('/:userName/favourites', asyncHandler( async (req, res) => {
@@ -54,3 +66,4 @@ router.get('/:userName/favourites', asyncHandler( async (req, res) => {
   const user = await User.findByUserName(userName).populate('favourites');
   res.status(200).json(user.favourites);
 }));
+
