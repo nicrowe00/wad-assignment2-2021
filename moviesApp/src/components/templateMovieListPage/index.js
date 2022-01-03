@@ -4,7 +4,6 @@ import FilterCard from "../filterMoviesCard";
 import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
 import MovieList from "../movieList";
-import {Profile} from "../pages"
 
 const useStyles = makeStyles({
   root: {
