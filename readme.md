@@ -9,7 +9,7 @@ Name: Niall Crowe
  + Feature 2 - Added user authentication
  + Feature 3 - Added API Routes for TMDB
  + Feature 4 - Integrated React App features to work with the API.
- + etc
+ 
 
 ## Installation Requirements
 git clone https://github.com/ncrowe2000/wad-assignment2-2021.git
