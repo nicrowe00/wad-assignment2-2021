@@ -12,7 +12,7 @@ const BaseAuthHeader = (props) => {
     </p>
   ) : (
     <p>
-      You are not logged in{" "}
+      You are not logged in. You must log in to view movies.{" "}
       <button onClick={() => history.push("/login")}>Login</button>
     </p>
   );

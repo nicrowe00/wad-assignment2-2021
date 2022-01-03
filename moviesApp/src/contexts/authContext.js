@@ -22,6 +22,9 @@ const AuthContextProvider = (props) => {
       setIsAuthenticated(true);
       setUserName(username);
     }
+    else {
+      <p>You must sign in to use the App</p>
+    }
   };
 
   const register = async (username, password) => {
